@@ -1,0 +1,93 @@
+[gd_scene load_steps=18 format=3 uid="uid://cni15752x6tfa"]
+
+[ext_resource type="Texture2D" uid="uid://kveeq6q677ol" path="res://assets/textures/prototype/Green/texture_02.png" id="1_6eqcn"]
+[ext_resource type="Texture2D" uid="uid://c5qq1ary8nohh" path="res://assets/textures/prototype/Dark/texture_03.png" id="1_eqvg8"]
+[ext_resource type="PackedScene" uid="uid://djmpstvaqdshm" path="res://assets/models/truck/truck_flat.tscn" id="4_tsyus"]
+[ext_resource type="Texture2D" uid="uid://cy112tfufqej3" path="res://assets/textures/prototype/Orange/texture_02.png" id="4_vvsqa"]
+[ext_resource type="PackedScene" uid="uid://db3a4bsdhjw31" path="res://scenes/player/player.tscn" id="4_xjq8l"]
+[ext_resource type="PackedScene" uid="uid://ot4syxgtisvq" path="res://assets/models/d20/d20.tscn" id="5_qrk1l"]
+[ext_resource type="PackedScene" uid="uid://cktrj8vsuow2a" path="res://assets/models/grass/grass.tscn" id="7_lbum1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jtnco"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sky_energy_multiplier = 3.5
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_wl4xo"]
+sky_material = SubResource("ProceduralSkyMaterial_jtnco")
+
+[sub_resource type="Environment" id="Environment_jfkdm"]
+background_mode = 2
+sky = SubResource("Sky_wl4xo")
+glow_enabled = true
+fog_light_energy = 3.15
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lynpr"]
+size = Vector2(100, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kd2py"]
+albedo_texture = ExtResource("1_eqvg8")
+metallic = 1.0
+uv1_triplanar = true
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_gt7yb"]
+data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_oum7b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_onx2p"]
+albedo_texture = ExtResource("4_vvsqa")
+uv1_triplanar = true
+
+[sub_resource type="TorusMesh" id="TorusMesh_6052e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sn7xw"]
+albedo_texture = ExtResource("1_6eqcn")
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.450153, 0.479295, -0.991407)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jfkdm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="Level"]
+mesh = SubResource("PlaneMesh_lynpr")
+surface_material_override/0 = SubResource("StandardMaterial3D_kd2py")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Floor/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_gt7yb")
+
+[node name="truck_flat2" parent="Level" instance=ExtResource("4_tsyus")]
+transform = Transform3D(1.71776, 0, 1.02436, 0, 2, 0, -1.02436, 0, 1.71776, 1.83411, 0.0766779, -3.22171)
+
+[node name="player" parent="Level" instance=ExtResource("4_xjq8l")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.99853, 2.96889)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 0.456596, 0, 0, 0, 2.46525, -6.365, 0.235798, 0)
+mesh = SubResource("BoxMesh_oum7b")
+surface_material_override/0 = SubResource("StandardMaterial3D_onx2p")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Level"]
+transform = Transform3D(-1.74846e-08, 0.4, -1.74846e-08, 0, -1.74846e-08, -0.4, -0.4, -1.74846e-08, 7.64274e-16, -6.36686, 1.61037, -0.000429213)
+mesh = SubResource("TorusMesh_6052e")
+surface_material_override/0 = SubResource("StandardMaterial3D_sn7xw")
+
+[node name="d20" parent="Level" instance=ExtResource("5_qrk1l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.12592, 1.95508, -5.80212)
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Level"]
+transform = Transform3D(5.78691, 0, 0, 0, 0.456596, 0, 0, 0, 4.21146, -4.48471, 0.235798, -5.95195)
+mesh = SubResource("BoxMesh_oum7b")
+surface_material_override/0 = SubResource("StandardMaterial3D_onx2p")
+
+[node name="Grass" parent="." instance=ExtResource("7_lbum1")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 5.556, 0.1, 3.925)

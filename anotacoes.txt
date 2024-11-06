@@ -1,0 +1,4 @@
+# create pivot node
+# create camera3d inside pivot
+# position 0,12,20
+# rotation -30,0,0
